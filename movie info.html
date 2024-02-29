@@ -1,0 +1,76 @@
+<!-- Need to get api key from OMDB site first, then replace the value for var apikey -->
+
+
+<html>
+	<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	</head>
+	<body>
+
+		<input type="text" id="textBox" placeholder="Please enter a movie"></input>
+		<button id="search">Search</button>
+		<br><br>
+		<label for="list">Select a movie:</label>
+		<select id="list">
+			<option value="Star Wars">Star Wars</option>
+			<option value="The Empire Strikes Back">The Empire Strikes Back</option>
+			<option value="Return of the Jedi">Return of the Jedi</option>
+		</select>
+		<button id="menuSearch">Search</button>
+		<br>
+		<p id="movieInfo"></p>
+		<img id="moviePoster"</img>
+		<script>
+		
+		
+		
+		var title, director, plot, actors, poster
+		//var apiKey = '######' 
+		
+		$("#search").on("click", function(){
+		
+			var text = $("#textBox").val()
+			
+			text = text.replace(' ', '+')
+			fetch('http://www.omdbapi.com/?apikey=' + apiKey + '&t=' + text)
+				.then(function(response) {
+				
+					return response.json()
+				})
+				.then(function(json) {
+					title = json.Title
+					director = json.Director
+					plot = json.Plot
+					actors = json.Actors
+					poster = json.Poster
+					$("#movieInfo").html("<b>Movie Title: </b>" + title + "<br><b>Director: </b>" + director + "<br><b>Plot: </b>" + plot + "<br><b>Actors: </b>" + actors)
+					$("#moviePoster").attr("src", poster)
+				})
+		
+			
+		})
+		
+		$("#menuSearch").on("click", function() {
+			
+			var selection = $("#list").val()
+			selection = selection.replace(' ', '+')
+			fetch('http://www.omdbapi.com/?apikey=' + apiKey + '&t=' + selection)
+				.then(function(response) {
+				
+					return response.json()
+				})
+				.then(function(json) {
+					title = json.Title
+					director = json.Director
+					plot = json.Plot
+					actors = json.Actors
+					poster = json.Poster
+					$("#movieInfo").html("<b>Movie Title: </b>" + title + "<br><b>Director: </b>" + director + "<br><b>Plot: </b>" + plot + "<br><b>Actors: </b>" + actors)
+					$("#moviePoster").attr("src", poster)
+				})
+		})
+		
+		</script>
+
+	</body>
+</html>
